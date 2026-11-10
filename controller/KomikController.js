@@ -18,4 +18,26 @@ module.exports = {
             });
         }
     },
+
+    // 2. GET BY ID (Mendapatkan 1 komik berdasarkan ID)
+    getKomikById: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const komik = await Komik.findByPk(id);
+
+            if (!komik) {
+                return res.status(404).json({ message: "Komik tidak ditemukan" });
+            }
+
+            res.status(200).json({
+                message: `Berhasil mendapatkan komik dengan ID ${id}`,
+                data: komik
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Terjadi kesalahan pada server",
+                error: error.message
+            });
+        }
+    },
 }
