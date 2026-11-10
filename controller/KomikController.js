@@ -79,6 +79,28 @@ module.exports = {
             if (!komik) {
                 return res.status(404).json({ message: "Komik tidak ditemukan" });
             }
+
+            // Update data
+            await Komik.update({
+                title,
+                description,
+                author
+            }, {
+                where: { id: id }
+            });
+
+            // Ambil data terbaru setelah diupdate
+            const komikTerupdate = await Komik.findByPk(id);
+
+            res.status(200).json({
+                message: `Berhasil mengupdate komik dengan ID ${id}`,
+                data: komikTerupdate
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Gagal mengupdate komik",
+                error: error.message
+            });
         }
     }
 }
