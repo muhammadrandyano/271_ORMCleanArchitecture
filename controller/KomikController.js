@@ -67,4 +67,18 @@ module.exports = {
             });
         }
     },
+
+    // 4. UPDATE (Mengubah data komik berdasarkan ID) <--- INI YANG HILANG SEBELUMNYA
+    updateKomik: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { title, description, author } = req.body;
+
+            // Cek apakah komik ada
+            const komik = await Komik.findByPk(id);
+            if (!komik) {
+                return res.status(404).json({ message: "Komik tidak ditemukan" });
+            }
+        }
+    }
 }
