@@ -40,4 +40,31 @@ module.exports = {
             });
         }
     },
+
+    // 3. CREATE (Menambahkan komik baru)
+    createKomik: async (req, res) => {
+        try {
+            const { title, description, author } = req.body;
+
+            if (!title || !author) {
+                return res.status(400).json({ message: "Title dan Author wajib diisi" });
+            }
+
+            const komikBaru = await Komik.create({
+                title,
+                description,
+                author
+            });
+
+            res.status(201).json({
+                message: "Berhasil menambahkan komik baru",
+                data: komikBaru
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Gagal menambahkan komik",
+                error: error.message
+            });
+        }
+    },
 }
