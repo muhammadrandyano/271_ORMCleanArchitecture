@@ -102,5 +102,32 @@ module.exports = {
                 error: error.message
             });
         }
+    },
+
+    // 5. DELETE (Menghapus komik berdasarkan ID)
+    deleteKomik: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            // Cek apakah komik ada
+            const komik = await Komik.findByPk(id);
+            if (!komik) {
+                return res.status(404).json({ message: "Komik tidak ditemukan" });
+            }
+
+            // Hapus data
+            await Komik.destroy({
+                where: { id: id }
+            });
+
+            res.status(200).json({
+                message: `Berhasil menghapus komik dengan ID ${id}`
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Gagal menghapus komik",
+                error: error.message
+            });
+        }
     }
-}
+};
